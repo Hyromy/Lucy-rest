@@ -10,9 +10,7 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY", "secret")
 
 DEBUG = getenv("PRODUCTION", "False") != "True"
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"] if DEBUG else [
-    i.strip() for i in getenv("HOSTS", "*").split(",") if i.strip()
-]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"] if DEBUG else ["*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -103,3 +101,36 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}

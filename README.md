@@ -45,7 +45,6 @@ Aunque el proyecto puede funcionar sin establecer ninguna variable de entorno, p
 | - | - | - |
 | `PRODUCTION` | `False` | Establece si el modo es de producción |
 | `DJANGO_SECRET_KEY` | `"secret"` | Secret de seguridad |
-| `HOSTS` | `"*"` | Hosts disponibles para el proyecto |
 | `PG_DB` | `"postgres"` | Base de datos PostgreSQL |
 | `PG_USER` | `"postgres"` | Usuario de PostgreSQL |
 | `PG_PASS` | `"postgres"` | Contraseña de PostgreSQL |

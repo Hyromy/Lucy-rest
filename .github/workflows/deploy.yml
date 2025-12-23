@@ -28,7 +28,6 @@ jobs:
             docker run -d --name '${{ vars.DOCKER_CONTAINER }}' \
               -e 'PRODUCTION=True' \
               -e 'DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}' \
-              -e 'HOSTS=${{ vars.HOSTS }}' \
               -e 'PG_DB=${{ vars.PG_DB }}' \
               -e 'PG_USER=${{ secrets.PG_USER }}' \
               -e 'PG_PASS=${{ secrets.PG_PASS }}' \
