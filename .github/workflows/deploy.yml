@@ -1,0 +1,41 @@
+name: Deploy in VPS
+
+on:
+  workflow_dispatch:
+
+  workflow_run:
+    workflows: ["Push Docker Image"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ vars.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            docker login -u ${{ vars.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+            docker stop ${{ vars.DOCKER_CONTAINER }} || true
+            docker rm ${{ vars.DOCKER_CONTAINER }} || true
+            docker rmi -f ${{ vars.DOCKER_USER }}/${{ vars.DOCKER_IMAGE }}:latest || true
+            docker pull ${{ vars.DOCKER_USER }}/${{ vars.DOCKER_IMAGE }}:latest
+            docker run -d --name '${{ vars.DOCKER_CONTAINER }}' \
+              -e 'PRODUCTION=True' \
+              -e 'DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}' \
+              -e 'HOSTS=${{ vars.HOSTS }}' \
+              -e 'PG_DB=${{ vars.PG_DB }}' \
+              -e 'PG_USER=${{ secrets.PG_USER }}' \
+              -e 'PG_PASS=${{ secrets.PG_PASS }}' \
+              -e 'PG_HOST=${{ vars.PG_HOST }}' \
+              -e 'PG_PORT=${{ vars.PG_PORT }}' \
+              -e 'SUPERUSER_USERNAME=${{ secrets.SUPERUSER_USERNAME }}' \
+              -e 'SUPERUSER_PASSWORD=${{ secrets.SUPERUSER_PASSWORD }}' \
+              -p '${{ vars.DOCKER_HOST_PORT }}:8000' \
+              --network '${{ vars.DOCKER_NETWORK }}' \
+              '${{ vars.DOCKER_USER }}/${{ vars.DOCKER_IMAGE }}:latest'
