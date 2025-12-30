@@ -13,6 +13,9 @@ async def discord(request):
 
     code = request.GET.get("code")
 
+    print(f"🔍 redirect_uri del frontend: {request.GET.get('redirect_uri')}")
+    print(f"🔍 redirect_uri final usado: {redirect_uri}")
+
     if not code:
         return JsonResponse(
             {
