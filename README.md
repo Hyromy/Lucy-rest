@@ -52,6 +52,9 @@ Aunque el proyecto puede funcionar sin establecer ninguna variable de entorno, p
 | `PG_POST` | `5432` | Puerto de PostgreSQL |
 | `SUPERUSER_USERNAME` | `Admin` | Super usuario de la aplicación |
 | `SUPERUSER_PASSWORD` | `Admin123` | Contraseña del super usuario |
+| `DISCORD_CLIENT_ID` | `None` | Id de cliente de discord de autenticación |
+| `DISCORD_CLIENT_SECRET` | `None` | Secret de cliente de discord de autenticación |
+| `FRONTEND_URL_ENDPOINT` | `"auth/callback"` | Ruta de redirección de autenticación |
 
 ## Despliegue
 
@@ -81,6 +84,13 @@ Aunque el proyecto puede funcionar sin establecer ninguna variable de entorno, p
    Aplica las migraciones.
    ```sh
    py manage.py migrate
+   ```
+
+4. Creación de super usuario
+
+   Crea un super usuario con [create_super_user.py](./create_super_user.py). Puedes configurar otro usuario por defecto con las claves `SUPERUSER_USERNAME` y `SUPERUSER_PASSWORD`
+   ```bash
+   py create_super_user.py
    ```
 
 El proyecto se ejecuta en el puerto `8000` pero puedes especificar otro.

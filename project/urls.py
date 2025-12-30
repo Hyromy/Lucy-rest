@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
 
-from app.urls import urlpatterns as app_urlpatterns
+from apps.api import urls as api_urls
+from apps._auth import urls as auth_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(app_urlpatterns)),
+    path('api/', include(api_urls)),
+    path('auth/', include(auth_urls)),
 ]

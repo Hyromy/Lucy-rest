@@ -35,6 +35,9 @@ jobs:
               -e 'PG_PORT=${{ vars.PG_PORT }}' \
               -e 'SUPERUSER_USERNAME=${{ secrets.SUPERUSER_USERNAME }}' \
               -e 'SUPERUSER_PASSWORD=${{ secrets.SUPERUSER_PASSWORD }}' \
+              -e 'DISCORD_CLIENT_ID=${{ vars.DISCORD_CLIENT_ID }}' \
+              -e 'DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}' \
+              -e 'FRONTEND_URL_ENDPOINT=${{ vars.FRONTEND_URL_ENDPOINT }}' \
               -p '${{ vars.DOCKER_HOST_PORT }}:8000' \
               --network '${{ vars.DOCKER_NETWORK }}' \
               '${{ vars.DOCKER_USER }}/${{ vars.DOCKER_IMAGE }}:latest'
