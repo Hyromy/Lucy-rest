@@ -6,7 +6,10 @@ from os import getenv
 
 @require_GET
 async def discord(request):
-    redirect_uri = ("http://localhost:5173" if settings.DEBUG else "https://lucy.hyromy.xyz") + "/"
+    redirect_uri = request.GET.get("redirect_uri") or (
+        ("http://localhost:5173" if settings.DEBUG else "https://lucy.hyromy.xyz") + 
+        "/" + getenv("FRONTEND_URL_ENDPOINT", "auth/callback")
+    )
 
     code = request.GET.get("code")
 
