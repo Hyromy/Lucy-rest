@@ -39,6 +39,7 @@ jobs:
               -e 'DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}' \
               -e 'FRONTEND_URL_ENDPOINT=${{ vars.FRONTEND_URL_ENDPOINT }}' \
               -e 'FRONTEND_URL=${{ vars.FRONTEND_URL }}' \
+              -e 'PRO_DISCORD_BOT_TOKEN=${{ secrets.PRO_DISCORD_BOT_TOKEN }}' \
               -p '${{ vars.DOCKER_HOST_PORT }}:8000' \
               --network '${{ vars.DOCKER_NETWORK }}' \
               '${{ vars.DOCKER_USER }}/${{ vars.DOCKER_IMAGE }}:latest'

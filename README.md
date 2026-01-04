@@ -55,6 +55,8 @@ Aunque el proyecto puede funcionar sin establecer ninguna variable de entorno, p
 | `DISCORD_CLIENT_ID` | `None` | Id de cliente de discord de autenticación |
 | `DISCORD_CLIENT_SECRET` | `None` | Secret de cliente de discord de autenticación |
 | `FRONTEND_URL_ENDPOINT` | `"auth/callback"` | Ruta de redirección de autenticación |
+| `DEV_DISCORD_BOT_TOKEN` | `None` | Token de bot de discord de desarrollo |
+| `PRO_DISCORD_BOT_TOKEN` | `None` | Token de bot de discord de producción |
 
 ## Despliegue
 

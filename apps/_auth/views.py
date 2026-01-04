@@ -19,18 +19,8 @@ async def discord(request):
             },
             status = 400
         )
-    
-    code = data.get("code")
-    
-    origin = request.META.get('HTTP_ORIGIN') or request.META.get('HTTP_REFERER', '').rstrip('/')
-    if origin:
-        redirect_uri = f"{origin}/{getenv('FRONTEND_URL_ENDPOINT', 'auth/callback')}"
-    else:
-        redirect_uri = (
-            ("http://localhost:5173" if settings.DEBUG else getenv("FRONTEND_URL", "http://localhost:5173")) + 
-            "/" + getenv("FRONTEND_URL_ENDPOINT", "auth/callback")
-        )
 
+    code = data.get("code")
     if not code:
         return JsonResponse(
             {
@@ -38,6 +28,16 @@ async def discord(request):
                 "message": "The 'code' parameter is required in the request body."
             },
             status = 400
+        )
+
+    origin = (request.META.get('HTTP_ORIGIN') or request.META.get('HTTP_REFERER', '')).rstrip('/')
+    endpoint = getenv('FRONTEND_URL_ENDPOINT', 'auth/callback').lstrip('/')
+    if origin:
+        redirect_uri = f"{origin}/{endpoint}"
+    else:
+        localhost = "http://localhost:5173"
+        redirect_uri = (
+            (localhost if settings.DEBUG else getenv("FRONTEND_URL", localhost)) + "/" + endpoint
         )
 
     async with ClientSession() as session:

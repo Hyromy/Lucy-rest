@@ -1,8 +1,24 @@
 from django.urls import path
-from . import views
+
+from .views import (
+    health,
+    bot,
+    dashboard
+)
 
 urlpatterns = [
-    path("", views.HealthCheckView.as_view()),
-    path("guild/<int:id>/", views.GuildView.as_view()),
-    path("guild/", views.GuildView.as_view()),
+    path("", health.HealthCheckView.as_view()),
 ]
+
+urlpatterns += [
+    path(f"dashboard/{d['route']}", d['view']) for d in [
+        {"route": "guild/", "view": dashboard.GuildView.as_view()},
+        {"route": "guild/<int:id>/", "view": dashboard.GuildView.as_view()},
+    ]
+]
+
+""" urlpatterns += [
+    path(f"bot/{b['route']}", b['view']) for b in [
+        {"route": "", "view": None}
+    ]
+] """
