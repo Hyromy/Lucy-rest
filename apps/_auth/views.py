@@ -39,7 +39,6 @@ async def discord(request):
             {
                 "error": "Missing code",
                 "message": "The 'code' parameter is required in the request body."
-                "message": "The 'code' parameter is required in the request body."
             },
             status = 400
         )
@@ -62,7 +61,6 @@ async def discord(request):
                 "client_secret": getenv("DISCORD_CLIENT_SECRET"),
                 "grant_type": "authorization_code",
                 "code": code,
-                "redirect_uri": redirect_uri
                 "redirect_uri": redirect_uri
             },
             headers = {
