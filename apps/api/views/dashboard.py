@@ -55,9 +55,16 @@ class GuildView(APIView):
                 status = status.HTTP_200_OK
             )
         
-        guild_data = (await get_discord_guild_details(id))["guild"]
+        guild_details_response = await get_discord_guild_details(id)
+        if not guild_details_response["ok"]:
+            return Response(
+                guild_details_response,
+                status = status.HTTP_400_BAD_REQUEST
+            )
+
+        guild_data = guild_details_response["guild"]
         try:
-            db_guild = await sync_to_async(Guild.objects.get)(id=id)
+            db_guild = await sync_to_async(Guild.objects.get)(id = id)
             guild_data["lang"] = db_guild.lang
             guild_data["joined_at"] = db_guild.joined_at.isoformat()
         except Guild.DoesNotExist:
