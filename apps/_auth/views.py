@@ -2,7 +2,10 @@ from aiohttp import ClientSession
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from json import loads, JSONDecodeError
 from json import loads, JSONDecodeError
 from os import getenv
 
@@ -19,12 +22,23 @@ async def discord(request):
             },
             status = 400
         )
-
+    
     code = data.get("code")
+    
+    origin = request.META.get('HTTP_ORIGIN') or request.META.get('HTTP_REFERER', '').rstrip('/')
+    if origin:
+        redirect_uri = f"{origin}/{getenv('FRONTEND_URL_ENDPOINT', 'auth/callback')}"
+    else:
+        redirect_uri = (
+            ("http://localhost:5173" if settings.DEBUG else getenv("FRONTEND_URL", "http://localhost:5173")) + 
+            "/" + getenv("FRONTEND_URL_ENDPOINT", "auth/callback")
+        )
+
     if not code:
         return JsonResponse(
             {
                 "error": "Missing code",
+                "message": "The 'code' parameter is required in the request body."
                 "message": "The 'code' parameter is required in the request body."
             },
             status = 400
@@ -48,6 +62,7 @@ async def discord(request):
                 "client_secret": getenv("DISCORD_CLIENT_SECRET"),
                 "grant_type": "authorization_code",
                 "code": code,
+                "redirect_uri": redirect_uri
                 "redirect_uri": redirect_uri
             },
             headers = {
