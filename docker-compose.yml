@@ -27,8 +27,14 @@ services:
     ports:
       - "8000:8000"
 
+    env_file:
+      - .env
+
     environment:
       PRODUCTION: "True"
+      PG_DB: postgres
+      PG_USER: postgres
+      PG_PASS: postgres
       PG_HOST: db
 
     networks:
