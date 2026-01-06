@@ -10,7 +10,7 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY", "secret")
 
 DEBUG = getenv("PRODUCTION", "False") != "True"
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"] if DEBUG else ["*"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"] if DEBUG else [host.strip() for host in getenv("HOSTS", "*").split(",")]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
