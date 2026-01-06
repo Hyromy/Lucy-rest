@@ -17,8 +17,9 @@ urlpatterns += [
     ]
 ]
 
-""" urlpatterns += [
+urlpatterns += [
     path(f"bot/{b['route']}", b['view']) for b in [
-        {"route": "", "view": None}
+        {"route": "guild/", "view": bot.GuildView.as_view()},
+        {"route": "guild/<int:id>", "view": bot.GuildView.as_view()},
     ]
-] """
+]
